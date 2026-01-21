@@ -1,105 +1,109 @@
-# Faculty Finder - DA-IICT Data Pipeline
+# Faculty Finder
 
 **Industry-level, modular web scraping and data engineering project for faculty directory management.**
 
-## 📋 Project Overview
+## Project Status
 
-This is Phase 1 of the Faculty Finder project, focused on building a robust data engineering pipeline to extract, clean, store, and serve faculty information from the DA-IICT website.
+**Current State: Phase 5 Complete (Data Storage)**
+- Successfully extracted data for 109 faculty profiles.
+- Cleaned and standardized all records.
+- Implemented SQLite database for structured storage.
 
-## ✅ Current Status
-
-**Phase 4 Complete - Data Transformation**
-- ✓ Successfully scraped **109 faculty profiles**
-- ✓ **Cleaned & Standardized** data in `data/processed/faculty_data.csv`
-- ✓ **100% Data Completeness**: All missing values explicitly handled ("Not Provided")
-- ✓ Robust extraction logic for all directory types
-
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 faculty_finder/
-├── data/
-│   ├── raw/              # 109 faculty HTML files
-│   └── processed/        # faculty_data.csv (Cleaned Dataset)
-├── notebooks/
-│   ├── 01_web_scraping.ipynb
-│   └── 02_data_cleaning.ipynb
-├── src/
-│   ├── config.py         # Configuration and URLs
-│   ├── scraper.py        # Web scraping module
-│   ├── data_cleaner.py   # Data cleaning & Extraction module
-│   ├── process_data.py   # ETL pipeline script
-│   └── __init__.py
-├── app/                  # (Next: FastAPI application)
-├── database/             # (Next: SQLite storage)
-├── requirements.txt
-└── .gitignore
+ data/
+    raw/              # Raw HTML profiles
+    processed/        # Cleaned CSV data
+ database/
+    faculty.db        # SQLite database
+ notebooks/
+    01_web_scraping.ipynb
+    02_data_cleaning.ipynb
+    03_data_storage.ipynb
+ src/
+    config.py         # Global settings
+    scraper.py        # Web scraping logic
+    data_cleaner.py   # HTML parsing and extraction
+    process_data.py   # ETL pipeline script
+    database.py       # Database management
+    ingest_data.py    # Data migration script
+    __init__.py
+ app/                  # FastAPI application (pending)
+ requirements.txt
+ .gitignore
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run Data Pipeline
+### Run Pipeline
 ```bash
-# 1. Scrape Data
+# 1. Scrape raw data
 python src/scraper.py
 
-# 2. Clean & Process Data
+# 2. Process and clean data
 python src/process_data.py
+
+# 3. Load data into database
+python src/ingest_data.py
 ```
 
-## 📦 Tech Stack
+## Tech Stack
 
-- **requests** - HTTP library for web requests
-- **BeautifulSoup4** - HTML parsing and data extraction
-- **lxml** - Fast XML/HTML parser
-- **tenacity** - Retry logic with exponential backoff
-- **Pandas** - Data manipulation and CSV export
-- **FastAPI** *(upcoming)* - REST API framework
-- **SQLite** *(upcoming)* - Database for structured storage
+- **Requests**: HTTP library for fetching web pages.
+- **BeautifulSoup4**: HTML parsing and data extraction.
+- **LXML**: Fast processing for structured documents.
+- **Tenacity**: Retry logic for network resilience.
+- **Pandas**: Data transformation and cleaning.
+- **SQLite**: Local relational database.
+- **FastAPI**: REST API framework (next phase).
 
-## 📊 Data Summary
+## Data Summary
 
-- **Total Records Processed**: 109
-- **Format**: Structured CSV (`data/processed/faculty_data.csv`)
-- **Fields**: Name, Image URL, Education, Email, Biography, Specialization, Teaching, Publications, Raw Source File.
-- **Data Quality**: 0 Null Values (standardized to "Not Provided").
+- **Total Records**: 109
+- **Storage**: SQLite + CSV
+- **Fields**: Name, Image URL, Education, Email, Biography, Specialization, Teaching, Publications, Raw Source File, University.
+- **Quality**: No missing values; standardized to "Not Provided".
 
-## 🔜 Next Steps
+## Next Steps
 
-1. **Database Storage**: Design schema and store in SQLite (Phase 5)
-2. **FastAPI Service**: Create REST endpoints for data access (Phase 6)
-3. **Documentation**: Add API docs (Phase 8)
+1. Implement FastAPI REST endpoints for data access.
+2. Add full-text search capabilities across faculty bios and specializations.
+3. Finalize documentation for API usage.
 
-## 📁 Files Generated
+## Files Generated
 
-- **109 HTML files** in `data/raw/`
-- **1 Cleaned CSV** in `data/processed/faculty_data.csv`
+- Raw HTML files in `data/raw/`
+- Processed CSV in `data/processed/`
+- SQLite database in `database//`
 
-## 🛠️ Module Usage
+## Module Usage
 
 ```python
-from src.data_cleaner import FacultyCleaner
+from src.database import DatabaseManager
 
-cleaner = FacultyCleaner()
-data = cleaner.extract_faculty_data(html_content, "filename.html")
-print(data['biography'])
+db = DatabaseManager()
+faculty_list = db.get_all_faculty()
+
+for faculty in faculty_list:
+    print(faculty['name'], faculty['specialization'])
 ```
 
-## ⚙️ Configuration
+## Configuration
 
-All settings in `src/config.py`:
-- Faculty directory URLs
-- Request delays (1 second - polite scraping)
-- Retry limits (3 attempts)
-- Data paths
+Settings are managed in `src/config.py`:
+- Target URLs for scraping.
+- Request delays and retry limits.
+- File system paths for data storage.
+- Database configuration.
 
 ---
 
-- **Current Status**: Phase 4 Complete - Data Ready for Ingestion
-- **Last Updated**: 2026-01-18
-- **Next Step**: Phase 5 (Data Storage in SQLite)
+**Last Updated**: 2026-01-21
+**Current Phase**: Phase 6 - API Development (Next)
