@@ -50,7 +50,7 @@ The most convenient way to explore and export data.
 streamlit run app/main_app.py
 ```
 - **Local Access**: `http://localhost:8501`
-- **Network Access**: Access the app from any device on the same Wi-Fi using your machine's IP (e.g., `http://192.168.x.x:8501`).
+- **Network Access**: `http://10.200.24.147:8501` (Give this to anyone on your Wi-Fi)
 - **Exports**: Download the entire dataset in **CSV** or **JSON** format via the sidebar.
 
 ### 2. Programmatic Access (Developer-Facing)
