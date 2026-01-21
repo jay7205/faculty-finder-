@@ -35,6 +35,34 @@ faculty_finder/
  .gitignore
 ```
 
+## Data Access
+
+This project provides multiple ways for collaborators to access the faculty data:
+
+### 1. Interactive UI (Recommended)
+Launch the Streamlit dashboard to search, view profiles, and download exports:
+```bash
+streamlit run app/main_app.py
+```
+- **Downloads**: Use the sidebar to export the entire database as **CSV** or **JSON**.
+
+### 2. Direct File Access
+- **SQLite Database**: Found at `database/faculty.db`. Use any SQLite viewer to query.
+- **CSV Format**: A processed version is available at `data/processed/faculty_data.csv`.
+
+### 3. Programmatic Access (API)
+The project includes a FastAPI backend for programmatic integration:
+```bash
+uvicorn app/main:app --reload
+```
+- **Endpoints**: `/api/faculty`, `/api/faculty/search`, `/api/faculty/{id}`.
+
+## Tech Stack
+- **Database**: SQLite
+- **API**: FastAPI
+- **UI**: Streamlit
+- **Scraping**: BeautifulSoup4, Requests
+
 ## Quick Start
 
 ### Install Dependencies
