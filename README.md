@@ -49,7 +49,8 @@ The most convenient way to explore and export data.
 ```bash
 streamlit run app/main_app.py
 ```
-- **Search**: Instance search across names, biographies, and specializations.
+- **Local Access**: `http://localhost:8501`
+- **Network Access**: Access the app from any device on the same Wi-Fi using your machine's IP (e.g., `http://192.168.x.x:8501`).
 - **Exports**: Download the entire dataset in **CSV** or **JSON** format via the sidebar.
 
 ### 2. Programmatic Access (Developer-Facing)
