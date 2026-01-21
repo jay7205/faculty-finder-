@@ -1,12 +1,14 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse, JSONResponse
 from typing import List, Optional
+import io
+import pandas as pd
 from .schemas import FacultyResponse, PaginatedFacultyResponse
 from .api import FacultyAPI
 
 app = FastAPI(
     title="Faculty Finder API",
-    description="REST API for accessing cleaned faculty data from DA-IICT",
     version="1.0.0"
 )
 
@@ -28,7 +30,9 @@ async def root():
         "endpoints": {
             "list": "/api/faculty",
             "search": "/api/faculty/search?q={query}",
-            "details": "/api/faculty/{id}"
+            "details": "/api/faculty/{id}",
+            "export_csv": "/api/faculty/export/csv",
+            "export_json": "/api/faculty/export/json"
         }
     }
 
@@ -45,6 +49,21 @@ async def list_faculty(page: int = Query(1, ge=1), limit: int = Query(10, ge=1, 
 @app.get("/api/faculty/search", response_model=List[FacultyResponse])
 async def search_faculty(q: str = Query(..., min_length=2)):
     return api.search(q)
+
+@app.get("/api/faculty/export/csv")
+async def export_csv():
+    _, data = api.get_all(page=1, limit=1000)
+    df = pd.DataFrame(data)
+    stream = io.StringIO()
+    df.to_csv(stream, index=False)
+    response = StreamingResponse(iter([stream.getvalue()]), media_type="text/csv")
+    response.headers["Content-Disposition"] = "attachment; filename=faculty_data.csv"
+    return response
+
+@app.get("/api/faculty/export/json")
+async def export_json():
+    _, data = api.get_all(page=1, limit=1000)
+    return JSONResponse(content=data, headers={"Content-Disposition": "attachment; filename=faculty_data.json"})
 
 @app.get("/api/faculty/{faculty_id}", response_model=FacultyResponse)
 async def get_faculty(faculty_id: int):
