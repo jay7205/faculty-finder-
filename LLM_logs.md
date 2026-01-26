@@ -45,7 +45,3 @@ This document tracks technical challenges where LLM support was used to solve sp
 "The app works on my localhost but others on the same Wi-Fi cannot see it. What settings do I need to change in uvicorn and streamlit so it listens on my actual IP address instead of just 127.0.0.1?"
 
 ---
-
-## 8. Final Code Refinement
-**Prompt:**  
-"The project is done but I want the code to look very clean and professional for submission. Help me remove all the unnecessary debug notes and comments so it looks like a finished production product. Also, make sure the documentation is formal."
