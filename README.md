@@ -12,9 +12,24 @@ A professional-grade, modular system designed to scrape, clean, store, and serve
 - **Storage**: Implemented a relational SQLite database with secondary indexing for optimal query speeds.
 - **Accessibility**: Developed a triple-entry access system: REST API, Interactive UI, and a dedicated Export Utility.
 
+## Data Pipeline Flowchart
+
+```mermaid
+graph TD
+    A["University Directories (DA-IICT)"] -->|Scraping| B["Raw HTML Files (109 Profiles)"]
+    B -->|ETL / Cleaning| C["Standardized CSV Dataset"]
+    C -->|Database Ingestion| D[("SQLite Database (faculty.db)")]
+    D -->|FastAPI Backend| E["REST API Endpoints"]
+    D -->|Streamlit Dashboard| F["Search & View UI"]
+    E -->|Exports| G["CSV / JSON Downloads"]
+    F -->|Exports| G
+```
+
 ---
 
 ## SQLite Database Schema
+
+```sql
 CREATE TABLE IF NOT EXISTS faculty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -31,6 +46,7 @@ CREATE TABLE IF NOT EXISTS faculty (
     university TEXT DEFAULT 'DA-IICT',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
 
 ## Project Architecture & Structure
@@ -117,9 +133,10 @@ If you prefer Jupyter, we have provided a "one-click" export script.
 
 ## Tech Stack & Statistics
 
-- **Backend**: Python 3.x, FastAPI, Pydantic, Uvicorn.
-- **Data**: Pandas, SQLite3, BeautifulSoup4, LXML.
-- **UI**: Streamlit.
+- **Web Scraping**: Requests, BeautifulSoup4, LXML, Tenacity.
+- **Data Engineering**: Pandas, SQLite3 (Relational Storage).
+- **Backend Services**: Python 3.x, FastAPI, Pydantic, Uvicorn.
+- **Frontend/UI**: Streamlit.
 - **Stats**: 109 Records | 10 Searchable Fields | 100% Data Completion.
 
 ---
