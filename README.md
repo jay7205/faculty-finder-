@@ -14,6 +14,25 @@ A professional-grade, modular system designed to scrape, clean, store, and serve
 
 ---
 
+## SQLite Database Schema
+CREATE TABLE IF NOT EXISTS faculty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    image_url TEXT,
+    education TEXT,
+    contact_no TEXT,
+    address TEXT,
+    email TEXT,
+    biography TEXT,
+    specialization TEXT,
+    teaching TEXT,
+    publications TEXT,
+    raw_source_file TEXT,
+    university TEXT DEFAULT 'DA-IICT',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 ## Project Architecture & Structure
 
 The project follows a modular "Service-Oriented" directory structure to ensure maintainability and scalability.
@@ -35,7 +54,7 @@ faculty_finder/
 │   ├── 02_data_cleaning.ipynb   # ETL logic verification
 │   ├── 03_data_storage.ipynb    # SQL schema & count audit
 │   ├── 04_evaluation.ipynb      # API endpoint stress testing
-│   └── 05_data_export.ipynb     # [NEW] One-click data export utility
+│   └── 05_data_export.ipynb     # One-click data export utility
 ├── src/                  # Core Engineering Modules
 │   ├── config.py         # Global constants (URLs, paths, retry logic)
 │   ├── scraper.py        # Resilient scraper with Tenacity retry support
@@ -50,17 +69,17 @@ faculty_finder/
 
 ## Technical Implementation Deep-Dive
 
-### 1. Resilient Data Acquisition
-University websites often use irregular URL patterns. Our scraper leverages:
-- **Recursive Pattern Matching**: Handles profiles stored under `/faculty/`, `/adjunct/`, and other distinct paths.
-- **Resilience**: Uses the `Tenacity` library to handle intermittent network failures with exponential backoff.
-- **Polite Scraping**: Implements custom Chromium headers and request delays to mimic human browsing behavior.
+### 1. Smart & Strong Web Scraping
+Websites can be tricky to scrape, so we built a high-quality scraper that:
+- **Finds Everything**: It automatically searches through different sections like permanent faculty, adjuncts, and international professors.
+- **Never Gives Up**: We used a library called **Tenacity**. If the internet is slow or a page fails to load, the scraper automatically tries again multiple times until it succeeds.
+- **Acts Like a Human**: It doesn't spam the website. It waits a few seconds between pages and uses "human-like" settings so it doesn't get blocked.
 
-### 2. The ETL Pipeline
-Converting raw HTML into a search engine requires significant cleaning:
-- **Email De-obfuscation**: University emails are often masked (e.g., `[at]` vs `@`). The system automatically decodes these patterns during processing.
-- **Missing Value Strategy**: Instead of leaving NULLs, every missing field is standardized to "Not Provided" to ensure consistent UI rendering.
-- **Biographical Repair**: Heuristic logic detects if a "Specialization" field actually contains a full biography and corrects the mapping automatically.
+### 2. Cleaning the Data (ETL)
+Raw data from websites is usually messy. Our system does "Data Cleaning" to make it perfect:
+- **Fixes Emails**: Some emails were written like `name [at] daiict [dot] ac [dot] in` to stop bots. Our system automatically fixes them back to `name@daiict.ac.in`.
+- **No Empty Gaps**: If any information (like a phone number) is missing, we label it as "Not Provided" so the app always looks clean and consistent.
+- **Smart Correction**: If a professor put their life story in the "Specialization" box by mistake, our system is smart enough to detect it and move it to the "Biography" section automatically.
 
 ### 3. High-Performance Search
 The system uses the SQLite **LIKE** operator combined with B-Tree indexes on `name` and `email` to provide sub-millisecond search results across 109 biographies and specializations.
@@ -79,7 +98,6 @@ streamlit run app/main_app.py
 ```
 - **Local URL**: `http://localhost:8501`
 - **Network URL**: `http://10.200.24.147:8501`
-- **Exports**: Use the sidebar buttons to download the entire 109-record dataset in **CSV** or **JSON** format instantly.
 
 ### B. The REST API (For Developers)
 For those integrating this data into other apps.
@@ -106,6 +124,3 @@ If you prefer Jupyter, we have provided a "one-click" export script.
 
 ---
 
-**Last Updated**: 2026-01-21  
-**Author Status**: Phase 7 Complete | Production Ready  
-**Final Submission Version**: 1.0.0
