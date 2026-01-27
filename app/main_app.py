@@ -3,6 +3,7 @@ import sys
 import os
 import pandas as pd
 import json
+import sqlite3
 from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -54,7 +55,7 @@ search_query = st.text_input("Search by Name, Specialization, or Biography", "")
 
 if search_query:
     conn = db.get_connection()
-    conn.row_factory = pd.io.sql.sqlite.sqlite3.Row
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     q = f"%{search_query}%"
     cursor.execute("""
