@@ -108,7 +108,7 @@ st.markdown("""
         border-left: 1px solid #30363d !important;
     }
 
-    #MainMenu, footer, header { visibility: hidden; }
+    #MainMenu, footer { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
