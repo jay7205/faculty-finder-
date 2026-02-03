@@ -95,6 +95,7 @@ If running locally without Docker, follow this sequence:
 ---
 
 ## Submission Components
-- `Prompt_Log_Phase2.md`: Documentation of all AI-assistance used.
-- `viva_preparation_guide.md`: Comprehensive technical walkthrough for viva examination.
-- `streamlit_cloud.md`: Information for cloud deployment.
+- `documentation/LLM_Usage_Logs.md`: Unified log of all AI prompts and support.
+- `documentation/viva_preparation_guide.md`: Comprehensive guide for project defense.
+- `documentation/streamlit_cloud.md`: Live deployment link and cloud settings.
+- `documentation/deployment_fixes.md`: Technical troubleshooting for Docker.
