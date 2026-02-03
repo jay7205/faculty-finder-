@@ -4,7 +4,7 @@ A professional-grade, modular system designed to scrape, clean, store, and serve
 
 ---
 
-## 📊 Section 1: Project Statistics 
+##  Section 1: Project Statistics 
 
 | Metric | Intelligence Detail |
 | :--- | :--- |
@@ -17,7 +17,7 @@ A professional-grade, modular system designed to scrape, clean, store, and serve
 
 ---
 
-## 🕸️ Data Pipeline Flowchart
+##  Data Pipeline Flowchart
 
 ```mermaid
 graph TD
@@ -32,7 +32,7 @@ graph TD
 
 ---
 
-## 🏛 Project Architecture & Structure
+##  Project Architecture & Structure
 
 The project follows a modular "Service-Oriented" directory structure to ensure maintainability and scalability.
 
@@ -66,7 +66,7 @@ faculty_finder/
 
 ---
 
-## 🗃 SQLite Database Schema
+##  SQLite Database Schema
 
 ```sql
 CREATE TABLE IF NOT EXISTS faculty (
@@ -91,7 +91,7 @@ CREATE INDEX idx_email ON faculty(email);
 
 ---
 
-## 🧠 Section 2: The Engineering Logic (Developer's Guide)
+##  Section 2: The Engineering Logic (Developer's Guide)
 
 This section details the "Brain" of the project. If a developer needs to modify or extend the system, this internal logic is the foundation:
 
@@ -116,7 +116,7 @@ This section details the "Brain" of the project. If a developer needs to modify 
 
 ---
 
-## 🚀 Section 3: Reconstruction & Execution (From Zero to Live)
+##  Section 3: Reconstruction & Execution (From Zero to Live)
 
 If the entire repository is deleted, a developer can rebuild the project from scratch by following these exact steps:
 
@@ -148,7 +148,7 @@ Once the database is rebuilt, the two interfaces can be launched independently:
 
 ---
 
-## 🛠 Technical Challenges & Solutions
+##  Technical Challenges & Solutions
 
 Developing a resilient, production-grade system required overcoming several real-world hurdles:
 
@@ -166,7 +166,7 @@ Developing a resilient, production-grade system required overcoming several real
 
 ---
 
-## 📟 Tech Stack Summary
+##  Tech Stack Summary
 
 - **Web Scraping**: Requests, BeautifulSoup4, LXML, Tenacity (Retry Logic).
 - **Data Engineering**: Pandas, SQLite3 (Relational Storage).
