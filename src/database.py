@@ -33,6 +33,7 @@ class DatabaseManager:
                 publications TEXT,
                 raw_source_file TEXT,
                 university TEXT DEFAULT 'DA-IICT',
+                embedding BLOB,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         """)
@@ -107,3 +108,24 @@ class DatabaseManager:
         cursor.execute("DELETE FROM faculty")
         conn.commit()
         conn.close()
+
+    def update_faculty_embedding(self, faculty_id: int, embedding_blob: bytes):
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("UPDATE faculty SET embedding = ? WHERE id = ?", (embedding_blob, faculty_id))
+            conn.commit()
+        except sqlite3.Error as e:
+            logger.error(f"Error updating embedding for ID {faculty_id}: {e}")
+            conn.rollback()
+        finally:
+            conn.close()
+
+    def get_faculty_by_id(self, faculty_id: int) -> Optional[Dict[str, Any]]:
+        conn = self.get_connection()
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM faculty WHERE id = ?", (faculty_id,))
+        row = cursor.fetchone()
+        conn.close()
+        return dict(row) if row else None

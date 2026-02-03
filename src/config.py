@@ -28,3 +28,9 @@ HEADERS = {
     "Connection": "keep-alive",
     "Upgrade-Insecure-Requests": "1"
 }
+
+MODELS_DIR = os.path.join(BASE_DIR, "models")
+VECTORIZER_PATH = os.path.join(MODELS_DIR, "tfidf_vectorizer.pkl")
+
+if not os.path.exists(MODELS_DIR):
+    os.makedirs(MODELS_DIR)

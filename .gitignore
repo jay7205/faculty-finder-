@@ -11,7 +11,6 @@ build/
 .env
 .vscode/
 .idea/
-*.db
 data/raw/*.html
 *.log
 .ipynb_checkpoints/

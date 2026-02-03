@@ -90,30 +90,3 @@ class FacultyCleaner:
         if src.startswith('http'):
             return src
         return f"{self.base_url}{src}"
-
-def main():
-    import json
-    try:
-        from .config import RAW_DATA_DIR
-    except ImportError:
-        from config import RAW_DATA_DIR
-    
-    cleaner = FacultyCleaner()
-    all_data = []
-    
-    files = [f for f in os.listdir(RAW_DATA_DIR) if f.endswith('.html')]
-    logger.info(f"Cleaning {len(files)} files...")
-    
-    for file_name in files:
-        file_path = os.path.join(RAW_DATA_DIR, file_name)
-        with open(file_path, 'r', encoding='utf-8') as f:
-            html = f.read()
-            data = cleaner.extract_faculty_data(html, file_name)
-            all_data.append(data)
-            
-    logger.info(f"Successfully cleaned {len(all_data)} profiles")
-    return all_data
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    main()

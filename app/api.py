@@ -33,17 +33,26 @@ class FacultyAPI:
         return dict(row) if row else None
 
     def search(self, query: str, limit: int = 20) -> List[dict]:
-        conn = self.db.get_connection()
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        search_term = f"%{query}%"
-        cursor.execute("""
-            SELECT * FROM faculty 
-            WHERE name LIKE ? 
-            OR specialization LIKE ? 
-            OR biography LIKE ?
-            LIMIT ?
-        """, (search_term, search_term, search_term, limit))
-        rows = cursor.fetchall()
-        conn.close()
-        return [dict(row) for row in rows]
+        if not query or len(query.strip()) < 2:
+            _, results = self.get_all(limit=limit)
+            return results
+
+        from src.recommender import FacultyRecommender
+        try:
+            recommender = FacultyRecommender()
+            return recommender.recommend(query, top_n=limit)
+        except Exception:
+            conn = self.db.get_connection()
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            search_term = f"%{query}%"
+            cursor.execute("""
+                SELECT * FROM faculty 
+                WHERE name LIKE ? 
+                OR specialization LIKE ? 
+                OR biography LIKE ?
+                LIMIT ?
+            """, (search_term, search_term, search_term, limit))
+            rows = cursor.fetchall()
+            conn.close()
+            return [dict(row) for row in rows]

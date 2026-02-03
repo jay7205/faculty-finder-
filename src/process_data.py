@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import logging
+import numpy as np
 from src.data_cleaner import FacultyCleaner
 from src.config import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
@@ -13,7 +14,6 @@ def process_all_profiles():
     all_data = []
     
     files = [f for f in os.listdir(RAW_DATA_DIR) if f.endswith('.html')]
-    logger.info(f"Processing {len(files)} HTML files...")
     
     for file_name in files:
         file_path = os.path.join(RAW_DATA_DIR, file_name)
@@ -23,21 +23,12 @@ def process_all_profiles():
             all_data.append(data)
             
     df = pd.DataFrame(all_data)
-    
     df['name'] = df['name'].str.replace(r'\s*\(On Leave\)', '', regex=True)
-    
-    import numpy as np
     df = df.replace(r'^\s*$', np.nan, regex=True)
     df = df.fillna("Not Provided")
     
     output_path = os.path.join(PROCESSED_DATA_DIR, 'faculty_data.csv')
     df.to_csv(output_path, index=False)
-    logger.info(f"Saved {len(df)} records to {output_path}")
-    
-    print("\nData Summary:")
-    print(df.info())
-    print("\nFirst 5 records:")
-    print(df[['name', 'email', 'education']].head())
 
 if __name__ == "__main__":
     process_all_profiles()
