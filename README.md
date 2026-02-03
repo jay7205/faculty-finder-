@@ -4,16 +4,39 @@ A professional-grade, modular system designed to scrape, clean, store, and serve
 
 ---
 
-##  Section 1: Project Statistics 
+### Project Statistics & High-Level Impact
 
 | Metric | Intelligence Detail |
 | :--- | :--- |
-| **Total Population** | 109 Comprehensive Faculty Profiles |
-| **Discovery Scope** | 5 University Directories (Permanent, Adjunct, International, Distinguished, Practice) |
-| **Data Integrity** | 100% (Zero Null Values; Handled via Heuristic Data Imputation) |
-| **Query Latency** | < 1ms (Leverages SQLite B-Tree Indexing on optimized columns) |
-| **System Layers** | 4 (Scraping -> ETL -> SQLite -> FastAPI/Streamlit) |
-| **Extraction Speed** | ~1.2s per profile (controlled for network politeness) |
+| **Total Dataset** | 109 Comprehensive Faculty Profiles |
+| **Extraction Speed** | ~1.2s per profile (Controlled for network politeness) |
+| **Data Integrity** | 100% Normalized (Zero Nulls; Handled via Heuristic Imputation) |
+| **Avg Bio Depth** | 81.0 Words per profile |
+| **Avg Specialization** | 12.1 Words per profile |
+
+#### Source Contribution Breakdown
+| Directory Category | Count | Contribution % |
+| :--- | :--- | :--- |
+| **Main Faculty** | 61 | 55.9% |
+| **Adjunct Faculty** | 28 | 25.7% |
+| **Professor of Practice** | 9 | 8.3% |
+| **Adjunct (International)** | 6 | 5.5% |
+| **Distinguished Professor** | 5 | 4.6% |
+
+####  Data Quality Audit (Raw vs. Processed)
+
+| Column Name | Missing Values (Raw) | Fill Strategy |
+| :--- | :--- | :--- |
+| **Biography** | 40 | Heuristic Imputation |
+| **Teaching** | 40 | Standardized Default |
+| **Publications** | 37 | Standardized Default |
+| **Address** | 35 | Placeholder Replacement |
+| **Contact No** | 32 | Placeholder Replacement |
+| **Specialization** | 5 | Logical Interpolation |
+| **Education** | 2 | Manual Validation |
+| **Email** | 1 | Manual Recovery |
+
+---
 
 ---
 
