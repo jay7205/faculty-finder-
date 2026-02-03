@@ -13,7 +13,7 @@ from src.recommender import FacultyRecommender
 st.set_page_config(
     page_title="Faculty Engine",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="auto"
 )
 
 @st.cache_resource
@@ -59,14 +59,6 @@ st.markdown("""
         border: 1px solid #30363d;
         border-radius: 4px;
         padding: 0.75rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        transition: 0.1s;
-    }
-    
-    .faculty-card-box:hover {
-        border-color: #58a6ff;
     }
 
     .prof-name {
@@ -92,21 +84,6 @@ st.markdown("""
         font-size: 0.65rem;
         font-weight: 700;
         float: right;
-    }
-
-    [data-testid="column"] [data-testid="stHorizontalBlock"] {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        width: 100% !important;
-        gap: 6px !important;
-    }
-    
-    [data-testid="column"] [data-testid="stHorizontalBlock"] > div {
-        flex: 1 1 0% !important;
-        min-width: 0 !important;
     }
 
     .stButton > button {
@@ -136,6 +113,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.write("### Faculty Intelligence")
+
+if st.session_state.active_profile:
+    st.info(f"Viewing Details for: **{st.session_state.active_profile['name']}**")
 
 search_col, _ = st.columns([1, 1])
 with search_col:
