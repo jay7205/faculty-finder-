@@ -45,7 +45,7 @@ st.markdown("""
     }
     
     .block-container {
-        padding-top: 1rem !important;
+        padding-top: 2.5rem !important;
         padding-bottom: 0rem !important;
         max-width: 98% !important;
     }
@@ -66,6 +66,14 @@ st.markdown("""
         font-weight: 600;
         font-size: 0.95rem;
         margin: 0.5rem 0 0.25rem 0;
+    }
+
+    .main-title {
+        color: #ffffff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
     }
 
     .spec-text {
@@ -112,7 +120,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.write("### Faculty Intelligence")
+st.markdown('<div class="main-title">Faculty Finder Intelligence</div>', unsafe_allow_html=True)
 
 if st.session_state.active_profile:
     st.info(f"Viewing Details for: **{st.session_state.active_profile['name']}**")
