@@ -1,6 +1,7 @@
 import logging
 import pickle
 import os
+import re
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from src.database import DatabaseManager
@@ -31,16 +32,14 @@ class FacultyRecommender:
         logger.info("TF-IDF Recommender initialized with expansion rules.")
 
     def _expand_query(self, query: str) -> str:
-        words = query.lower().split()
-        expanded_words = []
-        for word in words:
-            expanded_words.append(word)
-            if word in self.synonyms:
-                expanded_words.append(self.synonyms[word])
-        return " ".join(expanded_words)
+        expanded = query.lower()
+        # Ensure we only replace whole words (e.g., 'dl' but not 'idle')
+        for shortcut, full_term in self.synonyms.items():
+            pattern = re.compile(rf'\b{shortcut}\b', re.IGNORECASE)
+            expanded = pattern.sub(full_term, expanded)
+        return expanded
 
     def get_keywords(self, query: str, faculty_bio: str) -> list:
-        # We use the expanded query for keyword matching too
         expanded = self._expand_query(query)
         query_words = set(expanded.lower().split())
         bio_words = set(faculty_bio.lower().replace('.', ' ').replace(',', ' ').split())
