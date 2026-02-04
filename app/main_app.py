@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 @st.cache_resource
-def load_system():
+def load_faculty_system():
     db = DatabaseManager(DATABASE_PATH)
     try:
         recommender = FacultyRecommender()
@@ -27,7 +27,7 @@ def load_system():
         error = str(e)
     return db, recommender, error
 
-db, recommender, load_error = load_system()
+db, recommender, load_error = load_faculty_system()
 
 if 'active_profile' not in st.session_state:
     st.session_state.active_profile = None
@@ -138,9 +138,11 @@ if q:
     if recommender:
         with st.spinner("AI Analysis..."):
             results = recommender.recommend(q, top_n=21)
-            expanded = recommender._expand_query(q)
-            if expanded != q.lower():
-                st.caption(f"Expansion applied: {expanded}")
+            # Safe check for method existence due to streamlit caching
+            if hasattr(recommender, '_expand_query'):
+                expanded = recommender._expand_query(q)
+                if expanded != q.lower():
+                    st.caption(f"Expansion applied: {expanded}")
     else:
         results = []
     st.caption(f"Semantic Ranking Results ({len(results)})")
@@ -189,7 +191,7 @@ if st.session_state.active_profile:
         if f['image_url'] != "Not Provided":
             st.image(f['image_url'], use_container_width=True)
         
-        st.divider()
+        st.write("---")
         st.markdown("**Research Domain**")
         st.caption(f['specialization'])
         
@@ -207,5 +209,5 @@ if st.session_state.active_profile:
         if st.button("Close Viewer", type="primary", on_click=exit_profile):
             st.rerun()
 
-st.divider()
+st.write("---")
 st.caption("Engine v2.9 Stable | Semantic Intelligence Node | Minimalist Dark Architecture")
