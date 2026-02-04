@@ -18,10 +18,31 @@ class FacultyRecommender:
         with open(VECTORIZER_PATH, 'rb') as f:
             self.vectorizer = pickle.load(f)
             
-        logger.info("TF-IDF Recommender initialized.")
+        self.synonyms = {
+            "dl": "deep learning",
+            "ml": "machine learning",
+            "nlp": "natural language processing",
+            "ai": "artificial intelligence",
+            "cv": "computer vision",
+            "iot": "internet of things",
+            "vlsi": "very large scale integration"
+        }
+            
+        logger.info("TF-IDF Recommender initialized with expansion rules.")
+
+    def _expand_query(self, query: str) -> str:
+        words = query.lower().split()
+        expanded_words = []
+        for word in words:
+            expanded_words.append(word)
+            if word in self.synonyms:
+                expanded_words.append(self.synonyms[word])
+        return " ".join(expanded_words)
 
     def get_keywords(self, query: str, faculty_bio: str) -> list:
-        query_words = set(query.lower().split())
+        # We use the expanded query for keyword matching too
+        expanded = self._expand_query(query)
+        query_words = set(expanded.lower().split())
         bio_words = set(faculty_bio.lower().replace('.', ' ').replace(',', ' ').split())
         
         from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
@@ -30,7 +51,8 @@ class FacultyRecommender:
         return list(keywords)[:5]
 
     def recommend(self, query: str, top_n: int = 10):
-        query_vector = self.vectorizer.transform([query])
+        expanded_query = self._expand_query(query)
+        query_vector = self.vectorizer.transform([expanded_query])
         
         all_faculty = self.db.get_all_faculty()
         results = []
@@ -57,9 +79,12 @@ class FacultyRecommender:
 
 if __name__ == "__main__":
     recommender = FacultyRecommender()
-    test_query = "Machine Learning and Neural Networks"
-    matches = recommender.recommend(test_query, top_n=3)
     
-    print(f"\nResults for query: '{test_query}'")
-    for m in matches:
-        print(f"- {m['name']} | Match Score: {m['match_score']}% | Keywords: {m['matching_keywords']}")
+    # Test cases
+    queries = ["DL", "ML research", "AI and CV"]
+    
+    for test_query in queries:
+        matches = recommender.recommend(test_query, top_n=3)
+        print(f"\nResults for query: '{test_query}' (Expanded: {recommender._expand_query(test_query)})")
+        for m in matches:
+            print(f"- {m['name']} | Match Score: {m['match_score']}% | Keywords: {m['matching_keywords']}")
