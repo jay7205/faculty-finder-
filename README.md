@@ -6,7 +6,34 @@ A professional-grade, modular system designed to scrape, clean, store, and serve
 
 **Faculty Finder** automates the ingestion of academic profiles. It handles the complexities of scraping multi-pattern university directories, standardizing irregular HTML data, and providing high-performance access via both a REST API and a visual dashboard.
 
-### Key Milestones
+## **[Try the Live Demo](https://facultyfinder.streamlit.app/)**
+
+## Tech Stack & Statistics
+
+- **Web Scraping**: Requests, BeautifulSoup4, LXML, Tenacity.
+- **Data Engineering**: Pandas, SQLite3 (Relational Storage).
+- **Backend Services**: Python 3.x, FastAPI, Pydantic, Uvicorn.
+- **Frontend/UI**: Streamlit.
+
+### Project Statistics
+| Metric | Intelligence Detail |
+| :--- | :--- |
+| **Total Dataset** | 109 Comprehensive Faculty Profiles |
+| **Extraction Speed** | ~1.2s per profile (Controlled for network politeness) |
+| **Data Integrity** | 100% Normalized (Zero Nulls; Handled via Heuristic Imputation) |
+| **Avg Bio Depth** | 81.0 Words per profile |
+| **Avg Specialization** | 12.1 Words per profile |
+
+### Source Contribution Breakdown
+| Directory Category | Count | Contribution % |
+| :--- | :--- | :--- |
+| **Main Faculty** | 61 | 55.9% |
+| **Adjunct Faculty** | 28 | 25.7% |
+| **Professor of Practice** | 9 | 8.3% |
+| **Adjunct (International)** | 6 | 5.5% |
+| **Distinguished Professor** | 5 | 4.6% |
+
+## Key Milestones
 - **Acquisition**: Successfully scraped **109 faculty profiles** from 5 recursive university directory structures.
 - **Data Engineering**: Built a robust ETL pipeline ensuring 100% data standardization (zero null values).
 - **Storage**: Implemented a relational SQLite database with secondary indexing for optimal query speeds.
@@ -131,34 +158,9 @@ If you prefer Jupyter, we have provided a "one-click" export script.
 
 ---
 
-## Tech Stack & Statistics
-
-- **Web Scraping**: Requests, BeautifulSoup4, LXML, Tenacity.
-- **Data Engineering**: Pandas, SQLite3 (Relational Storage).
-- **Backend Services**: Python 3.x, FastAPI, Pydantic, Uvicorn.
-- **Frontend/UI**: Streamlit.
-
-### Project Statistics
-| Metric | Intelligence Detail |
-| :--- | :--- |
-| **Total Dataset** | 109 Comprehensive Faculty Profiles |
-| **Extraction Speed** | ~1.2s per profile (Controlled for network politeness) |
-| **Data Integrity** | 100% Normalized (Zero Nulls; Handled via Heuristic Imputation) |
-| **Avg Bio Depth** | 81.0 Words per profile |
-| **Avg Specialization** | 12.1 Words per profile |
-
-#### Source Contribution Breakdown
-| Directory Category | Count | Contribution % |
-| :--- | :--- | :--- |
-| **Main Faculty** | 61 | 55.9% |
-| **Adjunct Faculty** | 28 | 25.7% |
-| **Professor of Practice** | 9 | 8.3% |
-| **Adjunct (International)** | 6 | 5.5% |
-| **Distinguished Professor** | 5 | 4.6% |
-
 ---
 
-# 🚀 Phase 2 Upgrade: AI Intelligence & Cloud Deployment
+# Phase 2 Upgrade: AI Intelligence & Cloud Deployment
 
 ## Phase 2 Architecture: The "Cognitive Layer"
 
@@ -179,25 +181,44 @@ graph LR
     UI -->|Visual Cards| User
 ```
 
-## 1. AI Recommendation Engine
+### 1. AI Recommendation Engine
 Gone are the days of simple keyword matching. We implemented a **TF-IDF + Cosine Similarity** engine to "understand" research topics.
 *   **Semantic Search**: Searching for "Deep Learning" will find professors who specialize in "Neural Networks" or "AI", even if they don't use the exact words.
 *   **Abbreviation Intelligence**: The engine uses a regex-based expansion layer. If you type **"DL"**, it automatically expands to **"deep learning"**; "NLP" becomes "natural language processing", etc.
 *   **Match Scoring**: Every result gets a percentage score (e.g., "96% Match") so you know exactly how relevant a professor is to your query.
 
-## 2. Premium UI (Dark Mode)
-The dashboard was completely redesigned for a specialized information experience.
-*   **Obsidian Dark Theme**: A clean, professional interface that reduces eye strain.
-*   **Dynamic Sidebars**: Clicking "Details" opens a rich profile view on the side without navigating away from your search results.
-*   **Smart Feedback**: The search bar provides real-time feedback, showing captions like `Expansion applied: deep learning` so users trust the AI.
-
-## 3. Docker & Cloud Deployment
+### 2. Docker & Cloud Deployment
 The entire system is now containerized and lives in the cloud.
 *   **Dockerized**: We use `docker-compose` to spin up both the API (FastAPI) and the UI (Streamlit) in isolated containers with auto-recovery policies.
 *   **Streamlit Cloud**: The app is live-deployed, making it accessible to anyone with a browser, anywhere in the world.
 
-### Submission Components for Phase 2
+## Semantic Search Demo
+
+The screenshots below demonstrate the semantic search capabilities of the system, including natural language understanding, relevance ranking, and confidence scoring.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Query: "I want to build a recommendation system using NLP"</strong><br/>
+      <img src="https://github.com/user-attachments/assets/dcd5dfa5-b949-48e6-888b-8f4606c9b76a"
+           alt="Semantic search for NLP-based recommendation system"
+           width="700"/>
+      <br/>
+      <em>Natural language intent is correctly mapped to relevant faculty expertise.</em>
+    </td>
+    <td align="center">
+      <strong>Query: "University College Cork"</strong><br/>
+      <img src="https://github.com/user-attachments/assets/d2ed5bda-dabe-4b06-b362-ef75cb43a0d3"
+           alt="Semantic search for institution-based query"
+           width="700"/>
+      <br/>
+      <em>Faculty profiles retrieved using institutional context and semantic ranking.</em>
+    </td>
+  </tr>
+</table>
+
+
+## Submission Components for Phase 2
 - `documentation/LLM_Usage_Logs.md`: Unified log of all AI prompts and support.
-- `documentation/viva_preparation_guide.md`: Comprehensive guide for project defense.
 - `documentation/streamlit_cloud.md`: Live deployment link and cloud settings.
 - `documentation/deployment_fixes.md`: Technical troubleshooting for Docker.
